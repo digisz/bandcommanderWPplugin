@@ -15,15 +15,18 @@ Text Domain: bandcommander-wp
 
 function bandcommander_shortcode() {
 	$token = get_option('bandcommander_token');
+	$bands = get_option('bandcommander_bands');
+	$bands = implode('/', array_map('rawurlencode', explode('/', $bands)));
+
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_URL, 'api.bandcommander.ch/events/?token='.$token);
+curl_setopt($ch, CURLOPT_URL, 'api.bandcommander.ch/events/filtered/'.$bands.'/?token='.$token);
 $result = curl_exec($ch);
 curl_close($ch);
 $obj = json_decode($result);
-	
-	
+
+
 	ob_start();
     ?>
 <?php for ($i = 0; $i < count($obj); $i++) {
@@ -57,7 +60,7 @@ $obj = json_decode($result);
 <?php } ?>
 <?php
     return ob_get_clean();
-	
+
 }
 function bandcommander_register_shortcode() {
     add_shortcode( 'bandcommander', 'bandcommander_shortcode' );
@@ -73,18 +76,24 @@ function my_admin_menu () {
 
 function bandcommander_admin_page () {
 
-  $textvar = get_option('bandcommander_token', 'demoToken');
+  $token = get_option('bandcommander_token', 'demoToken');
+	$bands = get_option('bandcommander_bands', 'demoToken');
   if (isset($_POST['change-clicked'])) {
     update_option( 'bandcommander_token', $_POST['token'] );
-    $textvar = get_option('bandcommander_token', 'demoToken');
+		update_option( 'bandcommander_bands', $_POST['bands'] );
+    $token = get_option('bandcommander_token', 'demoToken');
+		$bands = get_option('bandcommander_bands', 'demoToken');
   }
 ?>
 <div class="wrap">
   <h1>Bandcommander Token</h1>
-  <p>Bitte hier Bandcommander Token eingeben:</p>
+  <p>Bitte hier Bandcommander Token & Bands (getrennt durch /) eingeben:</p>
   <form action="<?php echo str_replace('%7E', '~', $_SERVER['REQUEST_URI']); ?>" method="post">
     Token:
-    <input type="text" value="<?php echo $textvar; ?>" name="token" placeholder="token">
+    <input type="text" value="<?php echo $token; ?>" name="token" placeholder="token">
+    <br />
+		Bands:
+    <input type="text" value="<?php echo $bands; ?>" name="bands" placeholder="Möchtegang">
     <br />
     <input name="change-clicked" type="hidden" value="1" />
     <input type="submit" value="Change Token" />
