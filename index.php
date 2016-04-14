@@ -33,7 +33,7 @@ $obj = json_decode($result);
 	.bandcommander_event_titel{
 		margin-bottom:5px;
 		margin-top:20px;
-		font-size:18px;
+		font-size:19px;
 		line-height:20px;
 		}
 	.bandcommander_event_date{
