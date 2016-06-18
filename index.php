@@ -61,6 +61,9 @@ $obj = json_decode($result);
     <link itemprop="url" href="<?php echo $obj[$i]->links->facebook ?>" />
     <a href="<?php echo $obj[$i]->links->tickets ?>" target="_blank">Facebook Event</a> </div>
   <?php } ?>
+	<?php if($obj[$i]->publicnotes){ ?>
+    <div><?php echo $obj[$i]->publicnotes ?></div>
+  <?php } ?>
   <div itemprop="performer" itemscope="" itemtype="http://schema.org/MusicGroup">
     <meta itemprop="name" content="<?php echo $obj[$i]->band ?>">
   </div>
