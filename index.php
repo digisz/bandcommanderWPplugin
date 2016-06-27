@@ -53,7 +53,7 @@ $obj = json_decode($result);
   <?php if($obj[$i]->links->tickets){ ?>
   <div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
     <link itemprop="url" href="<?php echo $obj[$i]->links->tickets ?>" />
-    <a href="<?php echo $obj[$i]->links->tickets ?> target="_blank">Tickets kaufen</a> </div>
+    <a href="<?php echo $obj[$i]->links->tickets ?>" target="_blank">Tickets kaufen</a> </div>
   <?php } ?>
   <!-- Facebook -->
   <?php if($obj[$i]->links->facebook){ ?>
