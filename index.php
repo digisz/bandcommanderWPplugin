@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('CET');
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 /*
 Plugin Name: Bandcommander WP Plugin
