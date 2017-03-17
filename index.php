@@ -22,11 +22,10 @@ function bandcommander_shortcode() {
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_URL, 'api.bandcommander.ch/events/filtered/'.$bands.'/?token='.$token);
+curl_setopt($ch, CURLOPT_URL, 'https://api.bandcommander.ch/events/filtered/'.$bands.'/?token='.$token);
 $result = curl_exec($ch);
 curl_close($ch);
 $obj = json_decode($result);
-
 
 	ob_start();
     ?>
@@ -60,7 +59,7 @@ $obj = json_decode($result);
   <?php if($obj[$i]->links->facebook){ ?>
   <div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
     <link itemprop="url" href="<?php echo $obj[$i]->links->facebook ?>" />
-    <a href="<?php echo $obj[$i]->links->tickets ?>" target="_blank">Facebook Event</a> </div>
+    <a href="<?php echo $obj[$i]->links->facebook ?>" target="_blank">Facebook Event</a> </div>
   <?php } ?>
 	<?php if($obj[$i]->publicnotes){ ?>
     <div><?php echo $obj[$i]->publicnotes ?></div>
