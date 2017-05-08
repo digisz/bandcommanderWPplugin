@@ -25,7 +25,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_URL, 'https://api.bandcommander.ch/events/filtered/'.$bands.'/?token='.$token);
 $result = curl_exec($ch);
 curl_close($ch);
-$obj = json_decode($result);
+$obj = json_decode($result,true);
 
 	ob_start();
     ?>
@@ -42,30 +42,31 @@ $obj = json_decode($result);
 	</style>
 <?php for ($i = 0; $i < count($obj); $i++) {
 ?>
+
 <!-- Ort -->
 <div itemscope="" itemtype="http://schema.org/MusicEvent">
-  <h3 class="bandcommander_event_titel" itemprop="name"><?php echo "<span class='bandcommander_event_date'>".date_i18n('l d. F Y',strtotime($obj[$i]->date))."</span><br>".$obj[$i]->band ?> @ <?php echo $obj[$i]->location ?> <?php echo $obj[$i]->place ?></h3>
+  <h3 class="bandcommander_event_titel" itemprop="name"><?php echo "<span class='bandcommander_event_date'>".date_i18n('l d. F Y',strtotime($obj[$i]['date']))."</span><br>".$obj[$i]['band'] ?> @ <?php echo $obj[$i]['location'] ?> <?php echo $obj[$i]['place'] ?></h3>
   <div itemprop="location" itemscope="" itemtype="http://schema.org/MusicVenue">
-    <meta itemprop="name" content="<?php echo $obj[$i]->location ?> <?php echo $obj[$i]->place ?>"/>
+    <meta itemprop="name" content="<?php echo $obj[$i]['location'] ?> <?php echo $obj[$i]['place'] ?>"/>
   </div>
-  <div itemprop="startDate" content="<?php echo $obj[$i]->date ?>"></div>
+  <div itemprop="startDate" content="<?php echo $obj[$i]['date'] ?>"></div>
   <!-- Tickets -->
-  <?php if($obj[$i]->links->tickets){ ?>
+  <?php if($obj[$i]['links']['tickets']){ ?>
   <div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
-    <link itemprop="url" href="<?php echo $obj[$i]->links->tickets ?>" />
-    <a href="<?php echo $obj[$i]->links->tickets ?>" target="_blank">Tickets kaufen</a> </div>
+    <link itemprop="url" href="<?php echo $obj[$i]['links']['tickets'] ?>" />
+    <a href="<?php echo $obj[$i]['links']['tickets'] ?>" target="_blank">Tickets kaufen</a> </div>
   <?php } ?>
   <!-- Facebook -->
-  <?php if($obj[$i]->links->facebook){ ?>
+  <?php if($obj[$i]['links']['facebook']){ ?>
   <div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
-    <link itemprop="url" href="<?php echo $obj[$i]->links->facebook ?>" />
-    <a href="<?php echo $obj[$i]->links->facebook ?>" target="_blank">Facebook Event</a> </div>
+    <link itemprop="url" href="<?php echo $obj[$i]['links']['facebook'] ?>" />
+    <a href="<?php echo $obj[$i]['links']['facebook'] ?>" target="_blank">Facebook Event</a> </div>
   <?php } ?>
-	<?php if($obj[$i]->publicnotes){ ?>
-    <div><?php echo $obj[$i]->publicnotes ?></div>
+	<?php if($obj[$i]['publicnotes']){ ?>
+    <div><?php echo $obj[$i]['publicnotes'] ?></div>
   <?php } ?>
   <div itemprop="performer" itemscope="" itemtype="http://schema.org/MusicGroup">
-    <meta itemprop="name" content="<?php echo $obj[$i]->band ?>">
+    <meta itemprop="name" content="<?php echo $obj[$i]['band'] ?>">
   </div>
 </div>
 <?php } ?>
